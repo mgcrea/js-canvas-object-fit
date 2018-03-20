@@ -5,7 +5,7 @@ require('debug-utils').default();
 
 
 const toMatchImageSnapshot = configureToMatchImageSnapshot({
-  customDiffConfig: {failureThreshold: .1}
+  customDiffConfig: {failureThreshold: .01}
 });
 
 expect.extend({toMatchImageSnapshot});

@@ -64,8 +64,8 @@ export const drawImage = (
   const resizeWidth = !isRotated ? imageWidth * resizeRatio : imageHeight * resizeRatio;
   const resizeHeight = !isRotated ? imageHeight * resizeRatio : imageWidth * resizeRatio;
   // Cropping values
-  const sHeight = imageWidth / ((!isRotated ? resizeWidth : resizeHeight) / width);
-  const sWidth = imageHeight / ((!isRotated ? resizeHeight : resizeWidth) / height);
+  const sWidth = !isRotated ? imageWidth / (resizeWidth / width) : imageHeight / (resizeWidth / height);
+  const sHeight = !isRotated ? imageHeight / (resizeHeight / height) : imageWidth / (resizeHeight / width);
   const sX = (image.width - sWidth) * offsetX;
   const sY = (image.height - sHeight) * offsetY;
   // Positionning values
