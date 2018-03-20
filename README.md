@@ -5,6 +5,7 @@
 Easily draw images in your canvas with object-type contraints.
 
 * Works with [node-canvas](https://github.com/Automattic/node-canvas) on the server.
+* Supports EXIF orientation values to handle mobile pictures.
 
 ## Usage
 
@@ -39,6 +40,27 @@ Easily draw images in your canvas with object-type contraints.
     drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'contain', orientation: 6});
     const buffer = canvas.toBuffer('png');
     ```
+
+### Exif orientations
+
+```js
+//   1        2       3      4         5            6           7          8
+//  888888  888888      88  88      8888888888  88                  88  8888888888
+//  88          88      88  88      88  88      88  88          88  88      88  88
+//  8888      8888    8888  8888    88          8888888888  8888888888          88
+//  88          88      88  88
+//  88          88  888888  888888
+export const EXIF_ORIENTATIONS = [
+  {op: 'none', radians: 0},
+  {op: 'flip-x', radians: 0},
+  {op: 'none', radians: Math.PI},
+  {op: 'flip-y', radians: 0},
+  {op: 'flip-x', radians: Math.PI / 2},
+  {op: 'none', radians: Math.PI / 2},
+  {op: 'flip-x', radians: -Math.PI / 2},
+  {op: 'none', radians: -Math.PI / 2}
+];
+```
 
 ### Available scripts
 
