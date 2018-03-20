@@ -38,8 +38,6 @@ Easily draw images in your canvas with object-type contraints.
     image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated.jpg`);
     drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'contain', orientation: 6});
     const buffer = canvas.toBuffer('png');
-    expect(Buffer.isBuffer(buffer)).toBeTruthy();
-    expect(buffer).toMatchImageSnapshot();
     ```
 
 ### Available scripts
