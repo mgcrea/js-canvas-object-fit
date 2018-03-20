@@ -6,6 +6,7 @@
 //  88          88  888888  888888
 export const EXIF_ORIENTATIONS = [
   {op: 'none', radians: 0},
+  {op: 'none', radians: 0},
   {op: 'flip-x', radians: 0},
   {op: 'none', radians: Math.PI},
   {op: 'flip-y', radians: 0},
@@ -54,7 +55,7 @@ export const drawImage = (
   // Orientation value
   const rotation = EXIF_ORIENTATIONS[orientation].radians;
   const isRotated = rotation !== 0 && rotation % (Math.PI / 2) === 0;
-  const isRotatedClockwise = rotation / (Math.PI / 2) > 0;
+  const isRotatedClockwise = rotation / (Math.PI / 2) < 0;
   // Size values
   const imageWidth = !isRotated ? image.width : image.height;
   const imageHeight = !isRotated ? image.height : image.width;
@@ -74,7 +75,7 @@ export const drawImage = (
   const tHeight = !isRotated ? height : width;
   // Draw image
   if (rotation) {
-    ctx.rotate(-rotation);
+    ctx.rotate(rotation);
   }
   if (objectFit !== 'none') {
     ctx.drawImage(image, sX, sY, sWidth, sHeight, tX, tY, tWidth, tHeight);
@@ -82,6 +83,6 @@ export const drawImage = (
     ctx.drawImage(image, tX, tY, tWidth, tHeight);
   }
   if (rotation) {
-    ctx.rotate(rotation);
+    ctx.rotate(-rotation);
   }
 };

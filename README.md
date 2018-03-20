@@ -52,6 +52,7 @@ Easily draw images in your canvas with object-type contraints.
 //  88          88  888888  888888
 export const EXIF_ORIENTATIONS = [
   {op: 'none', radians: 0},
+  {op: 'none', radians: 0},
   {op: 'flip-x', radians: 0},
   {op: 'none', radians: Math.PI},
   {op: 'flip-y', radians: 0},
