@@ -1,0 +1,10 @@
+_book/
+.DS_Store
+.nyc_output/
+.tmp/
+*.log
+coverage/
+lib/
+node_modules/
+yarn.lock
+test/spec/__image_snapshots__/__diff_output__/
