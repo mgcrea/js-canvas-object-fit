@@ -1,7 +1,7 @@
 {
   "name": "canvas-object-fit",
   "description": "Easily draw images in your canvas with object-type contraints.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "author": "Olivier Louvignes <olivier@mgcrea.io>",
@@ -41,7 +41,17 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFiles": ["<rootDir>/test/setup/index.js"]
+    "setupFiles": [
+      "<rootDir>/test/setup/index.js"
+    ]
   },
-  "keywords": ["canvas", "image", "orientation", "exif", "object-fit", "cover", "contain"]
+  "keywords": [
+    "canvas",
+    "image",
+    "orientation",
+    "exif",
+    "object-fit",
+    "cover",
+    "contain"
+  ]
 }
