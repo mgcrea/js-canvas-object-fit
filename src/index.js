@@ -54,25 +54,33 @@ export const drawImage = (
 ) => {
   // Orientation value
   const rotation = EXIF_ORIENTATIONS[orientation].radians;
-  const isRotated = rotation !== 0 && rotation % (Math.PI / 2) === 0;
-  const isRotatedClockwise = rotation / (Math.PI / 2) < 0;
+  const isHalfRotated = rotation !== 0 && rotation % Math.PI === 0;
+  const isQuarterRotated = rotation !== 0 && rotation % (Math.PI / 2) === 0;
+  const isRotatedClockwise = rotation / (Math.PI / 2) < 0; // @NOTE handle 2*PI rotation?
   // Size values
-  const imageWidth = !isRotated ? image.width : image.height;
-  const imageHeight = !isRotated ? image.height : image.width;
+  const imageWidth = !isQuarterRotated ? image.width : image.height;
+  const imageHeight = !isQuarterRotated ? image.height : image.width;
   // Resize values
   const resizeRatio = Math[objectFit === 'cover' ? 'max' : 'min'](width / imageWidth, height / imageHeight);
-  const resizeWidth = !isRotated ? imageWidth * resizeRatio : imageHeight * resizeRatio;
-  const resizeHeight = !isRotated ? imageHeight * resizeRatio : imageWidth * resizeRatio;
+  const resizeWidth = !isQuarterRotated ? imageWidth * resizeRatio : imageHeight * resizeRatio;
+  const resizeHeight = !isQuarterRotated ? imageHeight * resizeRatio : imageWidth * resizeRatio;
   // Cropping values
-  const sWidth = !isRotated ? imageWidth / (resizeWidth / width) : imageHeight / (resizeWidth / height);
-  const sHeight = !isRotated ? imageHeight / (resizeHeight / height) : imageWidth / (resizeHeight / width);
+  const sWidth = !isQuarterRotated ? imageWidth / (resizeWidth / width) : imageHeight / (resizeWidth / height);
+  const sHeight = !isQuarterRotated ? imageHeight / (resizeHeight / height) : imageWidth / (resizeHeight / width);
   const sX = (image.width - sWidth) * offsetX;
   const sY = (image.height - sHeight) * offsetY;
   // Positionning values
-  const tX = !isRotated ? 0 : !isRotatedClockwise ? x : -height - x; // eslint-disable-line no-nested-ternary
-  const tY = !isRotated ? 0 : isRotatedClockwise ? y : -width - y; // eslint-disable-line no-nested-ternary
-  const tWidth = !isRotated ? width : height;
-  const tHeight = !isRotated ? height : width;
+  let tX = 0;
+  let tY = 0;
+  if (isHalfRotated) {
+    tX = -height - x;
+    tY = -width - y;
+  } else if (isQuarterRotated) {
+    tX = !isRotatedClockwise ? x : -height - x;
+    tY = isRotatedClockwise ? y : -width - y;
+  }
+  const tWidth = !isQuarterRotated ? width : height;
+  const tHeight = !isQuarterRotated ? height : width;
   // Draw image
   if (rotation) {
     ctx.rotate(rotation);

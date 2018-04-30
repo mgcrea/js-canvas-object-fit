@@ -56,13 +56,13 @@ describe('download', () => {
       expect(buffer).toMatchImageSnapshot();
     });
   });
-  describe('image-rotated.jpg', () => {
+  describe('image-rotated-exif-6.jpg', () => {
     it('should properly support objectFit = "none"', async () => {
       const [width, height] = [200, 200];
       const canvas = new Canvas(width, height);
       const context = canvas.getContext('2d');
       const image = new Canvas.Image();
-      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated.jpg`);
+      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated-exif-6.jpg`);
       // First draw using default API
       context.drawImage(image, 0, 0, width, height);
       const bufferA = canvas.toBuffer('png');
@@ -81,7 +81,7 @@ describe('download', () => {
       const canvas = new Canvas(width, height);
       const context = canvas.getContext('2d');
       const image = new Canvas.Image();
-      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated.jpg`);
+      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated-exif-6.jpg`);
       drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'cover', orientation: 6});
       const buffer = canvas.toBuffer('png');
       expect(Buffer.isBuffer(buffer)).toBeTruthy();
@@ -92,8 +92,51 @@ describe('download', () => {
       const canvas = new Canvas(width, height);
       const context = canvas.getContext('2d');
       const image = new Canvas.Image();
-      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated.jpg`);
+      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated-exif-6.jpg`);
       drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'contain', orientation: 6});
+      const buffer = canvas.toBuffer('png');
+      expect(Buffer.isBuffer(buffer)).toBeTruthy();
+      expect(buffer).toMatchImageSnapshot();
+    });
+  });
+  describe('image-rotated-exif-3.jpg', () => {
+    it('should properly support objectFit = "none"', async () => {
+      const [width, height] = [200, 200];
+      const canvas = new Canvas(width, height);
+      const context = canvas.getContext('2d');
+      const image = new Canvas.Image();
+      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated-exif-3.jpg`);
+      // First draw using default API
+      context.drawImage(image, 0, 0, width, height);
+      const bufferA = canvas.toBuffer('png');
+      expect(Buffer.isBuffer(bufferA)).toBeTruthy();
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      // Then draw using custom API
+      drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'none', orientation: 3});
+      const bufferB = canvas.toBuffer('png');
+      expect(Buffer.isBuffer(bufferB)).toBeTruthy();
+      expect(bufferB).toMatchImageSnapshot();
+      // Test equality
+      expect(bufferA.equals(bufferB)).toBeFalsy();
+    });
+    it('should properly support objectFit = "cover"', async () => {
+      const [width, height] = [200, 200];
+      const canvas = new Canvas(width, height);
+      const context = canvas.getContext('2d');
+      const image = new Canvas.Image();
+      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated-exif-3.jpg`);
+      drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'cover', orientation: 3});
+      const buffer = canvas.toBuffer('png');
+      expect(Buffer.isBuffer(buffer)).toBeTruthy();
+      expect(buffer).toMatchImageSnapshot();
+    });
+    it('should properly support objectFit = "contain"', async () => {
+      const [width, height] = [200, 200];
+      const canvas = new Canvas(width, height);
+      const context = canvas.getContext('2d');
+      const image = new Canvas.Image();
+      image.src = await fs.readFileAsync(`${fixturesPath}/image-rotated-exif-3.jpg`);
+      drawImage(context, image, 0, 0, canvas.width, canvas.height, {objectFit: 'contain', orientation: 3});
       const buffer = canvas.toBuffer('png');
       expect(Buffer.isBuffer(buffer)).toBeTruthy();
       expect(buffer).toMatchImageSnapshot();
