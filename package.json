@@ -1,7 +1,7 @@
 {
   "name": "canvas-object-fit",
   "description": "Easily draw images in your canvas with object-type contraints.",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "author": "Olivier Louvignes <olivier@mgcrea.io>",
