@@ -55,7 +55,7 @@ export const drawImage = (
   // Orientation value
   const rotation = EXIF_ORIENTATIONS[orientation].radians;
   const isHalfRotated = rotation !== 0 && rotation % Math.PI === 0;
-  const isQuarterRotated = rotation !== 0 && rotation % (Math.PI / 2) === 0 && !isHalfRotated;
+  const isQuarterRotated = rotation !== 0 && !isHalfRotated && rotation % (Math.PI / 2) === 0;
   const isRotatedClockwise = rotation / (Math.PI / 2) < 0; // @NOTE handle 2*PI rotation?
   // Size values
   const imageWidth = !isQuarterRotated ? image.width : image.height;
