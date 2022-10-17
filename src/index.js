@@ -52,14 +52,17 @@ export const drawImage = (
   height,
   {objectFit = 'cover', orientation = 0, offsetX = 1 / 2, offsetY = 1 / 2} = {}
 ) => {
+  // source values
+  const sourceWidth = image.width || image.videoWidth;
+  const sourceHeight = image.height || image.videoHeight;
   // Orientation value
   const rotation = EXIF_ORIENTATIONS[orientation].radians;
   const isHalfRotated = rotation !== 0 && rotation % Math.PI === 0;
   const isQuarterRotated = rotation !== 0 && !isHalfRotated && rotation % (Math.PI / 2) === 0;
   const isRotatedClockwise = rotation / (Math.PI / 2) < 0; // @NOTE handle 2*PI rotation?
   // Size values
-  const imageWidth = !isQuarterRotated ? image.width : image.height;
-  const imageHeight = !isQuarterRotated ? image.height : image.width;
+  const imageWidth = !isQuarterRotated ? sourceWidth : sourceHeight;
+  const imageHeight = !isQuarterRotated ? sourceHeight : sourceWidth;
   // Resize values
   const resizeRatio = Math[objectFit === 'cover' ? 'max' : 'min'](width / imageWidth, height / imageHeight);
   const resizeWidth = !isQuarterRotated ? imageWidth * resizeRatio : imageHeight * resizeRatio;
@@ -67,8 +70,8 @@ export const drawImage = (
   // Cropping values
   const sWidth = !isQuarterRotated ? imageWidth / (resizeWidth / width) : imageHeight / (resizeWidth / height);
   const sHeight = !isQuarterRotated ? imageHeight / (resizeHeight / height) : imageWidth / (resizeHeight / width);
-  const sX = (image.width - sWidth) * offsetX;
-  const sY = (image.height - sHeight) * offsetY;
+  const sX = (sourceWidth - sWidth) * offsetX;
+  const sY = (sourceHeight - sHeight) * offsetY;
   // Positionning values
   let tX = 0;
   let tY = 0;
